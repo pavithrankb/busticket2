@@ -1,17 +1,16 @@
 package com.company;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class ui {
 
     private String verifyManager(String tempUser, String tempPassword) {
-        
-        Connector c=new Connector();
-        String r=c.verifyOwner(tempUser,tempPassword);
-        System.out.println(r);
-        return(r);
-        
+    	user u1=new user();
+    	return (u1.verifyManager(tempUser,tempPassword));
+ 
     }
     private String createNewManager() {
         String username,password,email_id,ph_no,gen;
@@ -27,13 +26,8 @@ public class ui {
         System.out.println("enter the gender");
         gen=sc.next();
 //        sc.close();
-        
-        
-        Connector c=new Connector();
-        c.addOwner(username,password,email_id,ph_no,gen);
-        
-        
-        return username;
+        user u1=new user();
+        return (u1.createNewManager(username,password,email_id,ph_no,gen));
 
     }
 
@@ -44,6 +38,7 @@ public class ui {
 
             int opt_page1,opt_page2;
             ui ui1=new ui();
+       
             
         while(true){
         	
@@ -92,18 +87,46 @@ public class ui {
                         System.out.println("       4)Passenger list");
                         System.out.println("       5) go to main menu");
                         opt_page2 = sc.nextInt();
-                        user f=new user();
+                        bus b=new bus();
                         if (opt_page2==1) {
-                        	f.addBus(s);
+                        	String busno,busname,source,dest;
+                            int totalseats,freeseats,fare,AC,sleeper;
+                            System.out.println("enter the bus number");
+                            busno=sc.next();
+                            System.out.println("enter the bus name");
+                            busname=sc.next();
+                            System.out.println("enter the total number of seats");
+                            totalseats=sc.nextInt();
+                            System.out.println("enter the total free seats");
+                            freeseats=sc.nextInt();
+                            System.out.println("enter the bus fare");
+                            fare=sc.nextInt();
+                            System.out.println("enter the bus source");
+                            source=sc.next();
+                            System.out.println("enter the bus dest");
+                            dest=sc.next();
+                            System.out.println("AC =1 non AC=0");
+                            AC=sc.nextInt();
+                            System.out.println("sleeper=1 seater=0");
+                            sleeper=sc.nextInt();
+//                        	f.addBus(s);
+                        	b.addBus(busno,busname,totalseats,freeseats,fare,source,dest,s,AC,sleeper);
                         }
                         else if(opt_page2==2) {
-                        	f.deleteBus(s);
+                        	System.out.println("enter the bus number to remove");
+                	        b.viewBusList(s);
+                	        System.out.println("enter the bus you want to delete");
+                	        String delbus= sc.next();
+                        	b.deleteBus(s,delbus);
                         }
                         else if(opt_page2==3) {
-                        	f.viewBusList(s);
+                        	b.viewBusList(s);
                         }
                         else if(opt_page2==4) {
-                        	f.viewPassengerList(s);
+                        	System.out.println("here are your buses enter the desired bus number ");
+                	    	b.viewBusList(s);
+                	    	String passcheck=sc.next();
+                        	b.viewPassengerList(s,passcheck);
                         }
                         else {
                         	cont=false;
@@ -119,18 +142,19 @@ public class ui {
                     System.out.println("1)old user");
                     System.out.println("2)new user");
                     int opt1_page2 = sc.nextInt();
-                    String p=null;
+                    String passengerUsername=null;
                     if (opt1_page2 == 1) {
                     	int var=1;
                     	while(var==1) {
                         System.out.println("enter the username and password");
                         username = sc.next();
                         password = sc.next();
-                        p = ui1.verifyPassenger(username, password);
-                        if (!p.equals("error")) {
+                        passengerUsername = ui1.verifyPassenger(username, password);
+                        if (!passengerUsername.equals("error")) {
                             System.out.println("verified");
                             var=0;
                         } else {
+                        	
                             System.out.println("not verified");
 
                         }
@@ -138,12 +162,12 @@ public class ui {
                     	}
                     else
                     {
-                        p= ui1.createNewPassenger();
+                        passengerUsername= ui1.createNewPassenger();
 
                     }
                     boolean cont = true;
                     while (cont)
-                        if (!p.equals("error")) {
+                        if (!passengerUsername.equals("error")) {
                             System.out.println("page 3");
                             System.out.println("Passenger menu");
                             System.out.println("choose 1)Book bus");
@@ -153,11 +177,65 @@ public class ui {
                             opt_page2 = sc.nextInt();
                             passenger p1=new passenger();
                             if (opt_page2 == 1) {
-                                p1.bookBus(p);
+                            	
+                            	
+                            	
+                            	
+                            	
+                            	 boolean contin=true;
+                                 while(contin){
+                                 String dest,source;
+                                 System.out.println("enter the source");
+                                 source=sc.next();
+                                 System.out.println("enter the dest");
+                                 dest=sc.next();
+                                 passenger pass = new passenger();
+                                 pass.showlist(source,dest);
+                                 System.out.println("press 1 to access sorting and filtering menu or 2 to continue");
+                                 int sort=sc.nextInt();
+                                 if(sort==1) {
+                                 	System.out.println("sort by");
+                                 	System.out.println("		1)price low to high");
+                                 	System.out.println("		2)price high to low");
+                                 	int sortPrice=sc.nextInt();
+                                 	pass.sortDisplay(sortPrice,source,dest);
+                                 	
+                                 	System.out.println("filter by enter which applies");
+                                 	System.out.println("		1)all AC");
+                                 	System.out.println("		2)all nonAC");
+                                 	System.out.println("		3)all sleeper");
+                                 	System.out.println("		4)all seater");
+                                 	System.out.println("		5)AC seater");
+                                 	System.out.println("		6)non AC seater");
+                                 	System.out.println("		7)AC sleeper");
+                                 	System.out.println("		8)non AC sleeper");
+                                 	int filterOption=sc.nextInt();
+                                 	pass.filterDisplay(filterOption,source,dest);
+                                 	
+                                 	
+                                 }
+                                 System.out.println("enter the bus number which you want to book");
+                                 String busno=sc.next();
+                                 pass.bookBus(source,dest,busno,passengerUsername);  
+                                 System.out.println("do you want to book another ticker y/n");
+                                 String wannaContinue=sc.next();
+                                 if(wannaContinue.equals("n")) {
+                                 	contin=false;
+                                 }
+                                 
+                                 }
+                            	 
                             } else if (opt_page2 == 2) {
-                                p1.cancelBus(p);
+                        		System.out.println("Your booking");
+                        		p1.viewBookingList(passengerUsername);
+                        		System.out.println("enter the bus id to cancel the bus");
+                        		String cancel=sc.next();
+                        		p1.cancelBus(cancel);
+                        		System.out.println("the new list of your booking ");
+                        		p1.viewBookingList(passengerUsername);
+
                             } else if (opt_page2 == 3) {
-                                p1.viewBookingList(p);
+                                p1.viewBookingList(passengerUsername);
                             } else {
                                 cont = false;
                             }
@@ -183,20 +261,15 @@ public class ui {
         phonePassenger=sc.next();
         System.out.println("enter the gender");
         gengerPassenger=sc.next();
-//        sc.close();
-        
-        Connector c=new Connector();
-        c.addPassenger(usernamePassenger,passwordPassenger,emailPassword,phonePassenger,gengerPassenger);
-        
-        
-        return usernamePassenger;
+        passenger pass=new passenger();
+        String username=pass.createNewPassenger(usernamePassenger,passwordPassenger,emailPassword,phonePassenger,gengerPassenger);
+
+        return username;
     }
 
     private String verifyPassenger(String tempUserPassenger, String tempPasswordPassenger) {
-    	 Connector c1=new Connector();
-         String r=c1.verifyPassenger(tempUserPassenger, tempPasswordPassenger);
-         System.out.println(r);
-         return(r);
+    	passenger p1=new passenger();
+    	return (p1.verifyPassenger(tempUserPassenger, tempPasswordPassenger));
         
     }
 }

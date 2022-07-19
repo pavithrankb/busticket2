@@ -48,10 +48,18 @@ public class Connector {
     			statement.setInt(10,sleeper);
     			statement.executeUpdate();
     			System.out.println("new bus added");
-    			conn.close();
+    			
     		} catch (SQLException e) {
 
     			e.printStackTrace();
+    		}
+    		finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
         
     	
@@ -74,10 +82,18 @@ public class Connector {
        			statement.setString(5,gen);
        			statement.executeUpdate();
     			System.out.println("new owner added");
-    			conn.close();
+    			
     		} catch (SQLException e) {
 
     			e.printStackTrace();
+    		}
+    		finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     }
     public void addPassenger(String username, String password, String email, String ph, String gen) {
@@ -98,10 +114,18 @@ public class Connector {
        			statement.setString(5,gen);
        			statement.executeUpdate();
     			System.out.println("new passenger added");
-    			conn.close();
+    
     		} catch (SQLException e) {
 
     			e.printStackTrace();
+    		}
+    		finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     }
 	
@@ -122,7 +146,7 @@ public class Connector {
 					statement.setString(2,dest);
 					rs=statement.executeQuery();
 					System.out.println("fetched");
-					conn.close();
+				
 					while(rs.next()) {
 						System.out.print(rs.getString(1)+" ");
 						System.out.print(rs.getString(2)+" ");
@@ -138,7 +162,15 @@ public class Connector {
 				catch (SQLException e) {
 
 					e.printStackTrace();
-				}		
+				}	
+				finally {
+	    			try {
+						conn.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    		}
 		}
 	public String verifyOwner(String tempUser, String tempPassword) {
 		Connection conn=null;
@@ -158,7 +190,7 @@ public class Connector {
 				if(rs.next()) {
 //					System.out.println(rs.getString(1));
 //					System.out.println(rs.getString(2));
-					conn.close();
+			
 					return (rs.getString(1));
 					}
 				
@@ -167,11 +199,20 @@ public class Connector {
 					return("error");
 				}
 				
+				
 			} 
 			catch (SQLException e) {
 				System.out.println("exception arised");
 				e.printStackTrace();
 			}		
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 		
 	return ("null");	
 	}
@@ -192,7 +233,7 @@ public class Connector {
 				
 				rs=statement.executeQuery();
 				System.out.println("fetched");
-				conn.close();
+	
 				while(rs.next()) {
 					System.out.print(rs.getString(1)+" ");
 					System.out.print(rs.getString(2)+" ");
@@ -206,7 +247,15 @@ public class Connector {
 			catch (SQLException e) {
 
 				e.printStackTrace();
-			}		
+			}	
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 		
 	}
 	public void delBus(String s) {
@@ -223,13 +272,21 @@ public class Connector {
 				statement=conn.prepareStatement("delete from bus where bus_no=?");
 				statement.setString(1, s);
 				statement.executeUpdate();
-				conn.close();
+
 
 			} 
 			catch (SQLException e) {
 				System.out.println("exception arised");
 				e.printStackTrace();
 			}
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 		
 	}
 	public String verifyPassenger(String tempUserPassenger, String tempPasswordPassenger) {
@@ -246,7 +303,7 @@ public class Connector {
 				statement.setString(1, tempUserPassenger);
 				statement.setString(2, tempPasswordPassenger);
 				rs=statement.executeQuery();
-				conn.close();
+	
 				if(rs.next()) {
 //					System.out.println(rs.getString(1));
 //					System.out.println(rs.getString(2));
@@ -267,6 +324,14 @@ public class Connector {
 				System.out.println("exception arised");
 				e.printStackTrace();
 			}		
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 		
 	return ("null");	
 	}
@@ -289,10 +354,18 @@ public class Connector {
 				statement.setString(5, dest);
     			statement.executeUpdate();
     			System.out.println("inserted into booking table");
-    			conn.close();
+    	
     		} catch (SQLException e) {
 
     			e.printStackTrace();
+    		}
+    		finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     		
 		
@@ -320,12 +393,20 @@ public class Connector {
 				System.out.println(rs.getString(5)+" ");
 				
 			}
-			conn.close();
+			
 		} 
 		catch (SQLException e) {
 
 			e.printStackTrace();
 		}		
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	
 	
 		
@@ -343,13 +424,21 @@ public class Connector {
 				statement=conn.prepareStatement("delete from bookings where bus_no=?");
 				statement.setString(1, cancel);
 				statement.executeUpdate();
-				conn.close();
+				
 
 			} 
 			catch (SQLException e) {
 				System.out.println("exception arised");
 				e.printStackTrace();
 			}
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 		
 		
 	}
@@ -369,20 +458,27 @@ public class Connector {
 			rs=statement.executeQuery();
 			System.out.println("fetched");
 			while(rs.next()) {
-				System.out.println(rs.getString(1));
-				System.out.println(rs.getString(2));
-				System.out.println(rs.getString(3));
-				System.out.println(rs.getString(4));
-				System.out.println(rs.getString(5));
+				System.out.print(rs.getString(1)+" ");
+				System.out.print(rs.getString(2)+" ");
+				System.out.print(rs.getString(3)+" ");
+				System.out.print(rs.getString(4)+" ");
+				System.out.println(rs.getString(5)+" ");
 				
 			}
-			conn.close();
+			
 		} 
 		catch (SQLException e) {
 
 			e.printStackTrace();
 		}		
-	
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		
 		
@@ -408,7 +504,7 @@ public class Connector {
 				statement.setString(2,dest);
 				rs=statement.executeQuery();
 				System.out.println("fetched");
-				conn.close();
+				
 				while(rs.next()) {
 					System.out.print(rs.getString(1)+" ");
 					System.out.print(rs.getString(2)+" ");
@@ -423,6 +519,14 @@ public class Connector {
 
 				e.printStackTrace();
 			}		
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 	}
 	public void filterBy(int filterOption, String source, String dest)  {
 		
@@ -491,7 +595,7 @@ public class Connector {
 				
 				rs=statement.executeQuery();
 				System.out.println("fetched");
-				conn.close();
+			
 				while(rs.next()) {
 					System.out.print(rs.getString(1)+" ");
 					System.out.print(rs.getString(2)+" ");
@@ -506,5 +610,13 @@ public class Connector {
 
 				e.printStackTrace();
 			}		
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 	}
 }
