@@ -146,18 +146,23 @@ public class Connector {
 					statement.setString(2,dest);
 					rs=statement.executeQuery();
 					System.out.println("fetched");
-				
+					System.out.println("------------------------------------------------------------------------------------------------------");
+					System.out.println("bus number   source   destination   cost  total seats    vailable seats  AC/NONAC Sleeper");
 					while(rs.next()) {
-						System.out.print(rs.getString(1)+" ");
-						System.out.print(rs.getString(2)+" ");
-						System.out.print(rs.getString(3)+" ");
-						System.out.print(rs.getString(4)+" ");
-						System.out.print(rs.getString(5)+" ");
-						System.out.print(rs.getString(9)+" ");
-						System.out.print(rs.getString(10)+" ");
-						System.out.println(rs.getString(8)+" ");
+						
+						System.out.print(rs.getString(1)+"            ");
+			
+						System.out.print(rs.getString(3)+" 		");
+						System.out.print(rs.getString(4)+"  ");
+						System.out.print(rs.getString(5)+"  	  ");
+						System.out.print(rs.getString(6)+"  	  ");
+						System.out.print(rs.getString(7)+"   	 ");
+//						System.out.print(rs.getString(8)+"   			 ");
+						System.out.print(rs.getString(9)+"       ");
+						System.out.println(rs.getString(10)+" 	 ");
 						
 					}
+					System.out.println("------------------------------------------------------------------------------------------------------");
 				} 
 				catch (SQLException e) {
 
@@ -232,17 +237,24 @@ public class Connector {
 
 				
 				rs=statement.executeQuery();
-				System.out.println("fetched");
-	
+				System.out.println("------------------------------------------------------------------------------------------------------");
+				System.out.println("bus number   source   destination   cost  total seats    vailable seats  AC/NONAC Sleeper");
 				while(rs.next()) {
-					System.out.print(rs.getString(1)+" ");
-					System.out.print(rs.getString(2)+" ");
-					System.out.print(rs.getString(3)+" ");
-					System.out.print(rs.getString(4)+" ");
-					System.out.print(rs.getString(5)+" ");
-					System.out.println(rs.getString(8)+" ");
+					
+					System.out.print(rs.getString(1)+"            ");
+		
+					System.out.print(rs.getString(3)+" 		");
+					System.out.print(rs.getString(4)+"  ");
+					System.out.print(rs.getString(5)+"  	  ");
+					System.out.print(rs.getString(6)+"  	  ");
+					System.out.print(rs.getString(7)+"   	 ");
+//					System.out.print(rs.getString(8)+"   			 ");
+					System.out.print(rs.getString(9)+"       ");
+					System.out.println(rs.getString(10)+" 	 ");
 					
 				}
+				System.out.println("------------------------------------------------------------------------------------------------------");
+			
 			} 
 			catch (SQLException e) {
 
@@ -385,12 +397,13 @@ public class Connector {
 			statement.setString(1, p);
 			rs=statement.executeQuery();
 			System.out.println("fetched");
+		
 			while(rs.next()) {
-				System.out.print(rs.getString(1)+" ");
-				System.out.print(rs.getString(2)+" ");
-				System.out.print(rs.getString(3)+" ");
-				System.out.print(rs.getString(4)+" ");
-				System.out.println(rs.getString(5)+" ");
+				System.out.print(rs.getString(1)+"    ");
+				System.out.print(rs.getString(2)+"     ");
+				System.out.print(rs.getString(3)+"    ");
+				System.out.print(rs.getString(4)+"    ");
+				System.out.println(rs.getString(5)+"    ");
 				
 			}
 			
@@ -457,14 +470,17 @@ public class Connector {
 			statement.setString(1, passcheck);
 			rs=statement.executeQuery();
 			System.out.println("fetched");
+			System.out.println("==================================================================");
+			System.out.println("bus number     passenger name     passenger id    source    dest");
 			while(rs.next()) {
-				System.out.print(rs.getString(1)+" ");
-				System.out.print(rs.getString(2)+" ");
+				System.out.print(rs.getString(1)+"      ");
+				System.out.print(rs.getString(2)+"      ");
 				System.out.print(rs.getString(3)+" ");
-				System.out.print(rs.getString(4)+" ");
-				System.out.println(rs.getString(5)+" ");
+				System.out.print(rs.getString(4)+"     ");
+				System.out.println(rs.getString(5)+"   ");
 				
 			}
+			System.out.println("==================================================================");
 			
 		} 
 		catch (SQLException e) {
@@ -548,24 +564,28 @@ public class Connector {
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,1);
+					break;
 				}
 				case 2: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,0);
+					break;
 				}
 				case 3: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,1);
+					break;
 				}
 				case 4: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,0);
+					break;
 				}
 				case 5:  {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
@@ -573,6 +593,7 @@ public class Connector {
 					statement.setString(2,dest);
 					statement.setInt(3,1);
 					statement.setInt(4,0);
+					break;
 				}
 				case 6: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
@@ -580,6 +601,7 @@ public class Connector {
 					statement.setString(2,dest);
 					statement.setInt(3,0);
 					statement.setInt(4,0);
+					break;
 				}
 				case 7: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
@@ -587,6 +609,7 @@ public class Connector {
 					statement.setString(2,dest);
 					statement.setInt(3,1);
 					statement.setInt(4,1);
+					break;
 				}
 				case 8: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
@@ -594,6 +617,7 @@ public class Connector {
 					statement.setString(2,dest);
 					statement.setInt(3,0);
 					statement.setInt(4,1);
+					break;
 				}
 				}
 				
@@ -622,5 +646,83 @@ public class Connector {
 					e.printStackTrace();
 				}
     		}
+	}
+	public int checkSeatAvailability(String busno) {
+		Connection conn=null;
+		PreparedStatement statement=null;
+	ResultSet rs=null;
+	Connector obj = new Connector();
+	System.out.println(obj.get_conn());
+	conn=obj.get_conn();
+	
+//		String  query=String.format("select* from bookings where bus_no='%s'",passcheck);
+		try {
+			
+			statement=conn.prepareStatement("select available_seats from bus where bus_no=?");
+			statement.setString(1, busno);
+			rs=statement.executeQuery();
+			System.out.println("fetched");
+			while(rs.next()) {
+				if(rs.getString(1).equals("")){
+					return 0;
+				}
+				else {
+				int i=Integer.parseInt(rs.getString(1));
+				return(i);
+				}
+			}
+			
+		} 
+		catch (SQLException e) {
+
+			e.printStackTrace();
+		}		
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		return (0);
+		
+		
+		
+	}
+	public void reduceSeatCount(String busno, int i) {
+		Connection conn=null;
+		PreparedStatement statement=null;
+		Connector obj = new Connector();
+		System.out.println(obj.get_conn());
+		conn=obj.get_conn();
+		
+//			String  query=String.format("delete from bookings where bus_no='%s'",cancel);
+			try {
+				
+				statement=conn.prepareStatement("update bus set available_seats=? where bus_no=?");
+				statement.setString(2, busno);
+				statement.setInt(1, i);
+				statement.executeUpdate();
+				
+
+			} 
+			catch (SQLException e) {
+				System.out.println("exception arised");
+				e.printStackTrace();
+			}
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+		
+		
 	}
 }

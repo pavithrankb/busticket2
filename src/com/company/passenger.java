@@ -28,8 +28,16 @@ public class passenger {
         id.add(passengerUsername);
         id.add(busno);
         Collections.shuffle(id);
-        String bookingID=String.join("",id);
-        c.addBooking(busno,source,dest,passengerUsername,bookingID);
+        int freeSeats=c.checkSeatAvailability(busno);
+        if(freeSeats>0) {
+        	String bookingID=String.join("",id);
+            c.addBooking(busno,source,dest,passengerUsername,bookingID);
+            c.reduceSeatCount(busno,freeSeats-1);
+        }
+        else{
+        	System.out.println("no seats available sorry");
+        }
+        
 
     } 
 
