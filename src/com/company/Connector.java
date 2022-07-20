@@ -539,58 +539,62 @@ public class Connector {
 		
 //			String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
 			try {
+				switch(filterOption) {
 				
-				if(filterOption==1) {
+				
+				
+				case 1: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,1);
 				}
-				else if(filterOption==2) {
+				case 2: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,0);
 				}
-				else if(filterOption==3) {
+				case 3: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,1);
 				}
-				else if(filterOption==4) {
+				case 4: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,0);
 				}
-				else if(filterOption==5) {
+				case 5:  {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,1);
 					statement.setInt(4,0);
 				}
-				else if(filterOption==6) {
+				case 6: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,0);
 					statement.setInt(4,0);
 				}
-				else if(filterOption==7) {
+				case 7: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,1);
 					statement.setInt(4,1);
 				}
-				else if(filterOption==8) {
+				case 8: {
 					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
 					statement.setString(1, source);
 					statement.setString(2,dest);
 					statement.setInt(3,0);
 					statement.setInt(4,1);
+				}
 				}
 				
 				rs=statement.executeQuery();
