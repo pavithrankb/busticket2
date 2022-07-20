@@ -1,5 +1,6 @@
 package com.company;
 import java.sql.*;
+import java.util.ArrayList;
 public class Connector {
 	public static void main(String[] args) {
 		Connector obj = new Connector();
@@ -128,55 +129,148 @@ public class Connector {
 				}
     		}
     }
-	
 	public void showListBus(String source,String dest) {
 		
-			Connection conn=null;
-			PreparedStatement statement=null;
-			ResultSet rs=null;
-			Connector obj = new Connector();
-			System.out.println(obj.get_conn());
-			conn=obj.get_conn();
-			
-//				String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
-				try {
-					
-					statement=conn.prepareStatement("select* from bus where source=? and dest=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					rs=statement.executeQuery();
-					System.out.println("fetched");
-					System.out.println("------------------------------------------------------------------------------------------------------");
-					System.out.println("bus number   source   destination   cost  total seats    vailable seats  AC/NONAC Sleeper");
-					while(rs.next()) {
-						
-						System.out.print(rs.getString(1)+"            ");
-			
-						System.out.print(rs.getString(3)+" 		");
-						System.out.print(rs.getString(4)+"  ");
-						System.out.print(rs.getString(5)+"  	  ");
-						System.out.print(rs.getString(6)+"  	  ");
-						System.out.print(rs.getString(7)+"   	 ");
-//						System.out.print(rs.getString(8)+"   			 ");
-						System.out.print(rs.getString(9)+"       ");
-						System.out.println(rs.getString(10)+" 	 ");
-						
-					}
-					System.out.println("------------------------------------------------------------------------------------------------------");
-				} 
-				catch (SQLException e) {
+		Connection conn=null;
+		PreparedStatement statement=null;
+		PreparedStatement statement1=null;
+		ResultSet rs=null;
+		ResultSet rs1=null;
+		Connector obj = new Connector();
+		System.out.println(obj.get_conn());
+		conn=obj.get_conn();
+		
+//			String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+			try {
+				statement=conn.prepareStatement("select* from stops where stop_name=? and stop_end_name=?");
+				statement.setString(1,source);
+       			statement.setString(2,dest);
+				rs=statement.executeQuery();
+				System.out.println("fetched");
+				System.out.println("------------------------------------------------------------------------------------------");
+				System.out.println("bus number   source   cost   available seats    dest    AC/NONAC   Sleeper");
+				while(rs.next()) {
+				String x=rs.getString(1);
+				System.out.print(x+"    ");
+				System.out.print(rs.getString(3)+"    ");
+				System.out.print(rs.getString(4)+"    ");
+				
+				System.out.print(rs.getString(5)+"    ");
+				
+				
+				System.out.print(rs.getString(6)+"    ");
+				statement1=conn.prepareStatement("select* from bus where bus_no=?");
+				statement1.setString(1,x);
 
+				rs1=statement1.executeQuery();
+				while(rs1.next()){
+					System.out.print(rs1.getString(9)+"    ");
+					System.out.println(rs1.getString(10)+"    ");
+				}
+				
+				
+				
+//				System.out.println(start+"start and end"+end);
+			}
+				
+	
+				System.out.println("------------------------------------------------------------------------------------------------------");
+			} 
+			catch (SQLException e) {
+
+				e.printStackTrace();
+			}	
+			finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
-				finally {
-	    			try {
-						conn.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	    		}
-		}
+				}
+    		}
+	}
+//	public void showListBus(String source,String dest) {
+//		
+//			Connection conn=null;
+//			PreparedStatement statement=null;
+//			PreparedStatement statement1=null;
+//			PreparedStatement statement2=null;
+//			ResultSet rs=null;
+//			ResultSet rs1=null;
+//			ResultSet rs2=null;
+//			Connector obj = new Connector();
+//			String start = null,end=null;
+//			int freeSeats=0,cost1=0,cost2 = 0;
+//			System.out.println(obj.get_conn());
+//			conn=obj.get_conn();
+//			
+////				String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+//				try {
+//					statement=conn.prepareStatement("select* from bus");
+//					rs=statement.executeQuery();
+//					System.out.println("fetched");
+//					System.out.println("------------------------------------------------------------------------------------------");
+//					System.out.println("bus number   source   destination   cost   available seats  AC/NONAC Sleeper");
+//					while(rs.next()) {
+//						String busName=rs.getString(1);
+//					
+//					
+//					statement1=conn.prepareStatement("select* from stops where stop_name=? and bus_name=?");
+//					statement1.setString(1, source);
+//					statement1.setString(2, busName);
+//					rs1=statement1.executeQuery();
+//					while(rs1.next()) {
+//						start=rs1.getString(2);
+//						cost1=rs1.getInt(4);
+//					}
+//					
+//					statement1=conn.prepareStatement("select* from stops where stop_name=? and bus_name=?");
+//					statement1.setString(1, dest);
+//					statement1.setString(2, busName);
+//					rs1=statement1.executeQuery();
+//					while(rs1.next()) {
+//					end=rs1.getString(2);
+//					cost2=rs1.getInt(4);
+//					freeSeats=rs1.getInt(5);
+//					}
+//					
+//					if(start!=null && end !=null) {
+//						statement2=conn.prepareStatement("select* from bus where bus_no=?");
+//						statement2.setString(1, busName);
+//						rs2=statement2.executeQuery();
+//						rs2.next();
+//						System.out.print(rs2.getString(1)+"   ");
+//						System.out.print(source+"   ");
+//						System.out.print(dest+"   ");
+//						System.out.print((cost2-cost1)+"   ");
+//						System.out.print(freeSeats+"   ");
+//						System.out.print(rs2.getString(9)+"   ");
+//						System.out.println(rs2.getString(10)+"   ");
+//						
+//						
+//						
+//						
+//
+//					}
+////					System.out.println(start+"start and end"+end);
+//				}
+//					
+//		
+//					System.out.println("------------------------------------------------------------------------------------------------------");
+//				} 
+//				catch (SQLException e) {
+//
+//					e.printStackTrace();
+//				}	
+//				finally {
+//	    			try {
+//						conn.close();
+//					} catch (SQLException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//	    		}
+//		}
 	public String verifyOwner(String tempUser, String tempPassword) {
 		Connection conn=null;
 		PreparedStatement statement=null;
@@ -471,7 +565,7 @@ public class Connector {
 			rs=statement.executeQuery();
 			System.out.println("fetched");
 			System.out.println("==================================================================");
-			System.out.println("bus number     passenger name     passenger id    source    dest");
+			System.out.println("bus number     passenger name     passenger id    source      dest");
 			while(rs.next()) {
 				System.out.print(rs.getString(1)+"      ");
 				System.out.print(rs.getString(2)+"      ");
@@ -504,6 +598,8 @@ public class Connector {
 		Connection conn=null;
 		PreparedStatement statement=null;
 		ResultSet rs=null;
+		PreparedStatement statement1=null;
+		ResultSet rs1=null;
 		Connector obj = new Connector();
 		System.out.println(obj.get_conn());
 		conn=obj.get_conn();
@@ -511,10 +607,10 @@ public class Connector {
 //			String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
 			try {
 				if(sortPrice==1) {
-				statement=conn.prepareStatement("select* from bus where source=? and dest=? order by cost");
+				statement=conn.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
 				}
 				else {
-				statement=conn.prepareStatement("select* from bus where source=? and dest=? order by cost desc");
+				statement=conn.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach desc");
 				}
 				statement.setString(1, source);
 				statement.setString(2,dest);
@@ -522,13 +618,21 @@ public class Connector {
 				System.out.println("fetched");
 				
 				while(rs.next()) {
-					System.out.print(rs.getString(1)+" ");
+					String x=rs.getString(1);
+					System.out.print(x+" ");
 					System.out.print(rs.getString(2)+" ");
 					System.out.print(rs.getString(3)+" ");
 					System.out.print(rs.getString(4)+" ");
 					System.out.print(rs.getString(5)+" ");
-					System.out.println(rs.getString(8)+" ");
-					
+					System.out.print(rs.getString(6)+" ");
+					statement1=conn.prepareStatement("select* from bus where bus_no=?");
+					statement1.setString(1,x);
+
+					rs1=statement1.executeQuery();
+					while(rs1.next()){
+						System.out.print(rs1.getString(9)+"    ");
+						System.out.println(rs1.getString(10)+"    ");
+					}
 				}
 			} 
 			catch (SQLException e) {
@@ -554,99 +658,466 @@ public class Connector {
 		conn=obj.get_conn();
 		
 //			String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
-			try {
+			
 				switch(filterOption) {
 				
 				
 				
 				case 1: {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,1);
-					break;
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(ac.equals("1")) {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
-				case 2: {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,0);
-					break;
+				case 2:  {
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(ac.equals("0")) {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
-				case 3: {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and sleeper=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,1);
-					break;
+				case 3:  {
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(sleeper.equals("1")) {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
 				case 4: {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and sleeper=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,0);
-					break;
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(sleeper.equals("0")) {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
-				case 5:  {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,1);
-					statement.setInt(4,0);
-					break;
+				case 5:   {
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(ac.equals("1") && sleeper.equals("0")) {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
-				case 6: {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,0);
-					statement.setInt(4,0);
-					break;
+				case 6:  {
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(ac.equals("0") && sleeper.equals("0"))  {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
-				case 7: {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,1);
-					statement.setInt(4,1);
-					break;
+				case 7:  {
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(ac.equals("1") && sleeper.equals("1"))  {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
-				case 8: {
-					statement=conn.prepareStatement("select* from bus where source=? and dest=? and AC=? and sleeper=?");
-					statement.setString(1, source);
-					statement.setString(2,dest);
-					statement.setInt(3,0);
-					statement.setInt(4,1);
-					break;
-				}
+				case 8:  {
+					
+					Connection conn2=null;
+					PreparedStatement statement2=null;
+					ResultSet rs2=null;
+					PreparedStatement statement1=null;
+					ResultSet rs1=null;
+					String ac = null,sleeper=null;
+					Connector obj1 = new Connector();
+					System.out.println(obj1.get_conn());
+					conn2=obj.get_conn();
+					
+//						String  query=String.format("select* from bus where source='%s' and dest='%s'",source,dest);
+						try {
+						
+							statement2=conn2.prepareStatement("select* from stops where stop_name=? and stop_end_name=? order by cost_to_reach");
+							statement2.setString(1, source);
+							statement2.setString(2,dest);
+							rs=statement2.executeQuery();
+							System.out.println("fetched");
+							
+							while(rs.next()) {
+								String x=rs.getString(1);
+								statement1=conn.prepareStatement("select* from bus where bus_no=?");
+								statement1.setString(1,x);
+
+								rs1=statement1.executeQuery();
+								while(rs1.next()){
+									ac=rs1.getString(9);
+									sleeper=rs1.getString(10);
+								}
+								if(ac.equals("0") && sleeper.equals("1"))  {
+								System.out.print(x+" ");
+								System.out.print(rs.getString(2)+" ");
+								System.out.print(rs.getString(3)+" ");
+								System.out.print(rs.getString(4)+" ");
+								System.out.print(rs.getString(5)+" ");
+								System.out.print(rs.getString(6)+" ");
+
+								}
+							}
+						} 
+						catch (SQLException e) {
+
+							e.printStackTrace();
+						}		
+						finally {
+			    			try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		}
+						break;
 				}
 				
-				rs=statement.executeQuery();
-				System.out.println("fetched");
+				}
+				}
 			
-				while(rs.next()) {
-					System.out.print(rs.getString(1)+" ");
-					System.out.print(rs.getString(2)+" ");
-					System.out.print(rs.getString(3)+" ");
-					System.out.print(rs.getString(4)+" ");
-					System.out.print(rs.getString(5)+" ");
-					System.out.println(rs.getString(8)+" ");
-					
-				}
-			} 
-			catch (SQLException e) {
-
-				e.printStackTrace();
-			}		
-			finally {
-    			try {
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    		}
-	}
+	
+	
+			
 	public int checkSeatAvailability(String busno) {
 		Connection conn=null;
 		PreparedStatement statement=null;
@@ -723,6 +1194,42 @@ public class Connector {
 				}
     		}
 		
+		
+	}
+	public void addStops(String busno, int numberStops, ArrayList<String> stops, ArrayList<Integer> stopsCost, ArrayList<String> stopsEnd, ArrayList<Integer> freeSeats)  {
+		
+		Connection conn=null;
+    	PreparedStatement statement=null;
+    	Connector obj = new Connector();
+    	System.out.println(obj.get_conn());
+    	conn=obj.get_conn();
+    	
+//    		String  query=String.format("insert into bookings(bus_no,pssgn_username,booking_id,source,dest) values('%s','%s','%s','%s','%s')",busno,passnsame,bookingid,source,dest);
+    		try {
+    			for(int i=0;i<numberStops;i++) {
+    			statement=conn.prepareStatement("insert into stops(bus_name,stop_number,stop_name,cost_to_reach,stop_end_name,freeseats) values(?,?,?,?,?,?)");
+				statement.setString(1, busno);
+				statement.setInt(2, i);
+				statement.setString(3, stops.get(i));
+				statement.setInt(4,stopsCost.get(i));
+				statement.setString(5,stopsEnd.get(i));
+				statement.setInt(6,freeSeats.get(i));
+    			statement.executeUpdate();
+    			System.out.println("inserted into stops "+stops.get(i));
+    			}
+    		} catch (SQLException e) {
+
+    			e.printStackTrace();
+    		}
+    		finally {
+    			try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    		
 		
 	}
 }

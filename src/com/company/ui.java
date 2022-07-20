@@ -111,6 +111,29 @@ public class ui {
                             sleeper=sc.nextInt();
 //                        	f.addBus(s);
                         	b.addBus(busno,busname,totalseats,freeseats,fare,source,dest,s,AC,sleeper);
+                        	System.out.println("enter the stops from beginning to end");
+                        	ArrayList<String> stops=new ArrayList<>();
+                        	ArrayList<Integer> stopsCost=new ArrayList<>();
+                        	ArrayList<String> stopsEnd=new ArrayList<>();
+                        	ArrayList<Integer> freeSeats=new ArrayList<>();
+                        	int numberStops= sc.nextInt();
+                        	for(int i=0;i<numberStops;i++)
+                        	{
+                        		System.out.println("enter the stop start "+(i+1));
+                        		String tempStop=sc.next();
+                        		System.out.println("enter the stop end "+(i+1));
+                        		String tempStopend=sc.next();
+                				System.out.println("enter the cost for each stop");
+                        		int cost=sc.nextInt();
+                        		System.out.println("enter the freeseats for each stop");
+                        		int free=sc.nextInt();
+                        		stopsCost.add(cost);
+                        		stops.add(tempStop);
+                        		stopsEnd.add(tempStopend);
+                        		freeSeats.add(free);
+                        	}
+                        	b.addStops(busno,numberStops,stops,stopsCost,stopsEnd,freeSeats);
+                        	
                         }
                         else if(opt_page2==2) {
                         	System.out.println("enter the bus number to remove");

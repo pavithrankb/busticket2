@@ -1,6 +1,6 @@
 package com.company;
 
-
+import java.util.ArrayList;
 
 public class bus {
 
@@ -29,6 +29,12 @@ public class bus {
 
 
 	    }
+		public void addStops(String busno, int numberStops, ArrayList<String> stops, ArrayList<Integer> stopsCost, ArrayList<String> stopsEnd, ArrayList<Integer> freeSeats) {
+			Connector c=new Connector();
+			c.addStops(busno,numberStops,stops,stopsCost,stopsEnd,freeSeats);
+			
+			
+		}
  
 
 
